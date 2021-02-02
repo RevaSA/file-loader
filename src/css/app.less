@@ -1,0 +1,23 @@
+@import './vars';
+@import './file-loader';
+
+body {
+    font-family: 'Roboto', sans-serif;
+    color: @color-text;
+    background: @background;
+}
+
+.app {
+    .neumorphic-view();
+    width: 666px;
+    height: 666px;
+    padding: 20px;
+    box-sizing: border-box;
+    margin: 50px auto 0;
+
+    &__title {
+        margin: 0 0 20px 0;
+    }
+}
+
+

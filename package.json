@@ -1,24 +1,27 @@
 {
-  "name": "file-loader",
-  "version": "1.0.0",
-  "description": "Simple file loader",
-  "private": true,
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/RevaSA/file-loader.git"
-  },
-  "keywords": [
-    "js",
-    "javascript",
-    "input-file"
-  ],
-  "author": "Stanislav Reva <RevaSA95@gmail.com>",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/RevaSA/file-loader/issues"
-  },
-  "homepage": "https://github.com/RevaSA/file-loader#readme"
+    "name": "file-loader",
+    "version": "1.0.0",
+    "description": "Simple file loader",
+    "private": true,
+    "scripts": {
+        "serve": "parcel src/index.html"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/RevaSA/file-loader.git"
+    },
+    "keywords": [
+        "js",
+        "javascript",
+        "input-file"
+    ],
+    "author": "Stanislav Reva <RevaSA95@gmail.com>",
+    "license": "MIT",
+    "bugs": {
+        "url": "https://github.com/RevaSA/file-loader/issues"
+    },
+    "homepage": "https://github.com/RevaSA/file-loader#readme",
+    "devDependencies": {
+        "parcel-bundler": "^1.12.4"
+    }
 }
