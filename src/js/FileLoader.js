@@ -1,1 +1,114 @@
-console.log('FileLoader', 42)
+import merge from 'lodash.merge'
+import { getImageFromFile, bytesToSize } from './helpers'
+
+const defaults = {
+    selectors: {
+        fileInput: '[data-file-input]',
+        openButton: '[data-open-button]',
+        preview: '[data-preview]',
+    },
+    classes: {
+        showFiles: '_show-files',
+    },
+    multiple: false,
+    accept: [],
+}
+
+export default class FileLoader {
+    constructor(element, options = {}) {
+        if (!element) {
+            throw new Error(`Need element. Element equals ${el}`)
+        }
+
+        this.$el = element
+        this.options = merge({}, defaults, options)
+        this._cache()
+        this._bindEvents()
+        this._updateAttributes()
+    }
+
+    _cache() {
+        const { selectors } = this.options
+
+        this.$fileInput = this.$el.querySelector(selectors.fileInput)
+        this.$openButton = this.$el.querySelector(selectors.openButton)
+        this.$preview = this.$el.querySelector(selectors.preview)
+    }
+
+    _bindEvents() {
+        this.$openButton.addEventListener('click', () => this.open())
+        this.$fileInput.addEventListener('change', this._onChange.bind(this))
+    }
+
+    _updateAttributes() {
+        const { multiple, accept } = this.options
+
+        if (multiple) {
+            this.$fileInput.setAttribute('multiple', true)
+        }
+
+        if (accept.length) {
+            this.$fileInput.setAttribute('accept', accept.join(','))
+        }
+    }
+
+    open() {
+        this.$fileInput.click()
+    }
+
+    _onChange(ev) {
+        const files = [...ev.currentTarget.files]
+        const hasFiles = !!files.length
+
+        this.$preview.innerHTML = ''
+        this.$el.classList.toggle(this.options.classes.showFiles, hasFiles)
+
+        if (!hasFiles) {
+            return
+        }
+
+        const promises = files.map(file => {
+            const { name, size } = file
+
+            return getImageFromFile(file)
+                .then(imageSrc => {
+                    return this._getPreviewFileTemplate({
+                        name,
+                        size,
+                        imageSrc,
+                    })
+                })
+        })
+
+        Promise.all(promises).then(files => {
+            this.$preview.innerHTML = files.join('')
+        })
+    }
+
+    _getPreviewFileTemplate(file) {
+        let image
+
+        if (file.imageSrc) {
+            image = `<img src="${file.imageSrc}" class="file-preview__image" alt="${file.name}"/>`
+        } else {
+            image = `
+                <div class="file-preview__no-image">
+                    <span class="file-preview__no-image-text">No image</span>
+                </div>
+            `
+        }
+
+        return `
+            <div class="file-preview">
+                <div class="file-preview__square">
+                    <div class="file-preview__remove" data-name="${file.name}">&times;</div>
+                    ${image}
+                    <div class="file-preview__info">
+                        <span>${file.name}</span>
+                        ${bytesToSize(file.size)}
+                    </div>
+                </div>
+            </div>
+        `
+    }
+}

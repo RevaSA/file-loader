@@ -1,3 +1,6 @@
-import './FileLoader.js'
+import FileLoader from './FileLoader'
 
-console.log('app', 42)
+new FileLoader(document.querySelector('[data-file-loader]'), {
+    multiple: true,
+    accept: ['.png', '.jpg', '.jpeg', '.gif', '.pdf', '.doc'],
+})

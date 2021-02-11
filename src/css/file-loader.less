@@ -1,1 +1,23 @@
+@import './button/index';
 
+.file-loader {
+    &._show-files &__input-wr {
+        margin-bottom: 20px;
+    }
+
+    &__input {
+        position: absolute;
+        visibility: hidden;
+    }
+
+    &__preview {
+        display: flex;
+        flex-wrap: wrap;
+        margin: 0 -20px -20px 0;
+    }
+
+    .file-preview {
+        width: calc(25% - 20px);
+        margin: 0 20px 20px 0;
+    }
+}
