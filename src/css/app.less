@@ -7,7 +7,6 @@
 }
 
 body {
-    padding-top: 50px;
     font-family: 'Roboto', sans-serif;
     color: @color-text;
     background: @background;
@@ -15,14 +14,12 @@ body {
 
 .app {
     .neumorphic-view();
-    width: 666px;
-    min-height: 666px;
     padding: 20px;
-    box-sizing: border-box;
-    margin: 0 auto;
+    margin: 25px 25px 0;
 
-    &__title {
-        margin: 0 0 20px 0;
+    @media @noMobile {
+        width: 666px;
+        margin: 50px auto 0;
     }
 }
 
