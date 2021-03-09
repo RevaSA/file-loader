@@ -3,10 +3,21 @@
     position: relative;
     box-sizing: border-box;
     padding: 10px;
+    overflow: hidden;
 
     &:hover &__remove {
         @media @desktop {
             opacity: 1;
+            transition: opacity .3s;
+        }
+    }
+
+    &:hover &__info {
+        @media @desktop {
+            transform: translateY(0);
+            opacity: 1;
+            transition: transform .3s,
+                        opacity .3s;
         }
     }
 
@@ -29,7 +40,6 @@
 
         @media @desktop {
             opacity: 0;
-            transition: opacity .3s;
         }
     }
 
@@ -68,6 +78,31 @@
     }
 
     &__info {
-        display: none;
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        box-sizing: border-box;
+        display: flex;
+        justify-content: space-between;
+        width: 100%;
+        padding: 5px;
+        font-size: 12px;
+        background: @background;
+
+        @media @desktop {
+            transform: translateY(100%);
+            opacity: 0;
+        }
+    }
+
+    &__name {
+        margin-right: 5px;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        overflow: hidden;
+    }
+
+    &__size {
+        flex-shrink: 0;
     }
 }

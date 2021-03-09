@@ -95,11 +95,12 @@ export default class FileLoader {
 
                 <div class="file-preview__square">
                     ${this._getImageHTML(file)}
-                    <div class="file-preview__info">
-                        <span>${file.name}</span>
-                        ${bytesToSize(file.size)}
-                    </div>
                 </div>
+
+                <p class="file-preview__info">
+                    <span class="file-preview__name">${file.name}</span>
+                    <span class="file-preview__size">${bytesToSize(file.size)}</span>
+                </p>
             </div>
         `
     }
