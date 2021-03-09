@@ -85,18 +85,20 @@ export default class FileLoader {
         })
     }
 
-    _getPreviewFileTemplate(file) {
-        let image
-
+    _getImageTemplate(file) {
         if (file.imageSrc) {
-            image = `<img src="${file.imageSrc}" class="file-preview__image" alt="${file.name}"/>`
-        } else {
-            image = `
-                <div class="file-preview__no-image">
-                    <span class="file-preview__no-image-text">No image</span>
-                </div>
-            `
+            return `<img src="${file.imageSrc}" class="file-preview__image" alt="${file.name}"/>`
         }
+
+        return `
+            <div class="file-preview__doc">
+                <span class="file-preview__doc-text">Doc</span>
+            </div>
+        `
+    }
+
+    _getPreviewFileTemplate(file) {
+        const image = this._getImageTemplate(file)
 
         return `
             <div class="file-preview">

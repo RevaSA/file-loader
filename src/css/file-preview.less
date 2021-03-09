@@ -4,8 +4,6 @@
     padding: 10px;
 
     &__square {
-        .neumorphic-view();
-        overflow: hidden;
         position: relative;
         padding-bottom: 100%;
     }
@@ -15,7 +13,7 @@
     }
 
     &__image,
-    &__no-image {
+    &__doc {
         position: absolute;
         top: 0;
         left: 0;
@@ -27,14 +25,13 @@
         object-fit: cover;
     }
 
-    &__no-image {
+    &__doc {
         display: flex;
         justify-content: center;
         align-items: center;
-        font-size: 20px;
-    }
-
-    &__no-image {
+        font-size: 50px;
+        font-weight: 900;
+        text-transform: uppercase;
         cursor: default;
     }
 
