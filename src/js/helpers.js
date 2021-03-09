@@ -1,7 +1,7 @@
 export function getImageFromFile(file) {
     return new Promise(resolve => {
         if (!file.type.includes('image')) {
-            return resolve(null)
+            return resolve('')
         }
 
         const reader = new FileReader()

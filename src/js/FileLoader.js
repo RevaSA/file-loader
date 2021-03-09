@@ -73,13 +73,13 @@ export default class FileLoader {
     }
 
     _getImageHTML(file) {
-        if (file.imageSrc) {
+        if (file.imageSrc.length) {
             return `<img src="${file.imageSrc}" class="file-preview__image" alt="${file.name}"/>`
         }
 
         return `
-            <div class="file-preview__doc">
-                <span class="file-preview__doc-text">Doc</span>
+            <div class="file-preview__no-image">
+                <span class="file-preview__no-image-text">No image</span>
             </div>
         `
     }
