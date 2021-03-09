@@ -71,6 +71,7 @@
     }
 
     &__image {
+        border-radius: 5px;
         object-fit: cover;
     }
 
@@ -85,6 +86,7 @@
     }
 
     &__info {
+        .neumorphic-shadow();
         position: absolute;
         bottom: 0;
         left: 0;
@@ -97,7 +99,7 @@
         background: @background;
 
         @media @desktop {
-            transform: translateY(100%);
+            transform: translateY(125%);
         }
     }
 
