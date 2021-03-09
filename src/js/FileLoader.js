@@ -52,18 +52,11 @@ export default class FileLoader {
         }
     }
 
-    open() {
-        this.$fileInput.click()
-    }
-
     _onChange(ev) {
         const files = [...ev.currentTarget.files]
-        const hasFiles = !!files.length
 
-        this.$preview.innerHTML = ''
-        this.$el.classList.toggle(this.options.classes.showFiles, hasFiles)
-
-        if (!hasFiles) {
+        if (!files.length) {
+            this.render([])
             return
         }
 
@@ -71,21 +64,15 @@ export default class FileLoader {
             const { name, size } = file
 
             return getImageFromFile(file)
-                .then(imageSrc => {
-                    return this._getPreviewFileTemplate({
-                        name,
-                        size,
-                        imageSrc,
-                    })
-                })
+                .then(imageSrc => ({ name, size, imageSrc }))
         })
 
         Promise.all(promises).then(files => {
-            this.$preview.innerHTML = files.join('')
+            this.render(files)
         })
     }
 
-    _getImageTemplate(file) {
+    _getImageHTML(file) {
         if (file.imageSrc) {
             return `<img src="${file.imageSrc}" class="file-preview__image" alt="${file.name}"/>`
         }
@@ -97,14 +84,12 @@ export default class FileLoader {
         `
     }
 
-    _getPreviewFileTemplate(file) {
-        const image = this._getImageTemplate(file)
-
+    _getFileHTML(file) {
         return `
             <div class="file-preview">
                 <div class="file-preview__square">
                     <div class="file-preview__remove" data-name="${file.name}">&times;</div>
-                    ${image}
+                    ${this._getImageHTML(file)}
                     <div class="file-preview__info">
                         <span>${file.name}</span>
                         ${bytesToSize(file.size)}
@@ -112,5 +97,24 @@ export default class FileLoader {
                 </div>
             </div>
         `
+    }
+
+    open() {
+        this.$fileInput.click()
+    }
+
+    render(files) {
+        const hasFiles = !!files.length
+
+        this.$preview.innerHTML = ''
+        this.$el.classList.toggle(this.options.classes.showFiles, hasFiles)
+
+        if (!hasFiles) {
+            return
+        }
+
+        this.$preview.innerHTML = files.reduce((html, file) => {
+            return html + this._getFileHTML(file)
+        }, '')
     }
 }
