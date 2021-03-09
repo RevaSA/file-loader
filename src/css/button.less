@@ -1,0 +1,45 @@
+@import './vars';
+
+.button {
+    .neumorphic-view();
+    padding: 10px;
+    font-weight: 900;
+    line-height: 1;
+    text-transform: uppercase;
+    outline: none;
+    border: none;
+    color: @color-text;
+    background: transparent;
+    cursor: pointer;
+    transition: color .2s, box-shadow .2s;
+
+    &:hover {
+        color: #fff;
+    }
+
+    &:active {
+        .neumorphic-active-view();
+    }
+
+    &:active &__text {
+        transform: scale(.8);
+    }
+
+    &__text {
+        display: inline-block;
+        transition: transform .2s;
+    }
+}
+
+.button[disabled] {
+    box-shadow: none;
+    color: darken(@color-text, 30%);
+    background: darken(@background, 5%);
+    cursor: auto;
+}
+
+.button[disabled] .button {
+    &__text {
+        transform: scale(.9);
+    }
+}
