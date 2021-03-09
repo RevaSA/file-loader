@@ -8,6 +8,11 @@
     padding: @inner-space;
     overflow: hidden;
 
+    &._removing {
+        transform: scale(0);
+        transition: transform .3s;
+    }
+
     &:hover &__remove {
         @media @desktop {
             opacity: 1;
