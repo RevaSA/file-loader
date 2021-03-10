@@ -1,0 +1,14 @@
+@import './vars';
+
+.progress-bar {
+    .neumorphic-shadow();
+    height: 15px;
+    background: @background;
+
+    &__bar {
+        width: 25%;
+        height: 100%;
+        background: @color-text;
+        transition: width .3s;
+    }
+}

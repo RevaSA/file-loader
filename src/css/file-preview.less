@@ -1,4 +1,6 @@
 @import './vars';
+@import './progress-bar';
+
 @inner-space: 10px;
 
 .file-preview {
@@ -90,15 +92,19 @@
         cursor: default;
     }
 
-    &__info {
-        .neumorphic-shadow();
+    &__info,
+    &__progress-bar {
         position: absolute;
         bottom: 0;
         left: 0;
+        width: 100%;
+    }
+
+    &__info {
+        .neumorphic-shadow();
         box-sizing: border-box;
         display: flex;
         justify-content: space-between;
-        width: 100%;
         padding: 5px @inner-space;
         font-size: 12px;
         background: @background;
@@ -117,5 +123,20 @@
 
     &__size {
         flex-shrink: 0;
+    }
+
+    &__progress-bar {
+        display: none;
+    }
+}
+
+.file-loader._uploading .file-preview {
+    &__remove,
+    &__info {
+        display: none;
+    }
+
+    &__progress-bar {
+        display: block;
     }
 }

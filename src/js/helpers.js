@@ -17,3 +17,5 @@ export function bytesToSize(bytes = 0) {
 
     return Math.round(bytes / Math.pow(1024, i)) + ' ' + sizes[i]
 }
+
+export function noop() {}

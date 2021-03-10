@@ -1,10 +1,11 @@
 import merge from 'lodash.merge'
-import { getImageFromFile, bytesToSize } from './helpers'
+import { getImageFromFile, bytesToSize, noop } from './helpers'
 
 const defaults = {
     selectors: {
         fileInput: '[data-file-input]',
         openButton: '[data-open-button]',
+        uploadButton: '[data-upload-button]',
         previewContainer: '[data-preview-container]',
         filePreview: '[data-file-preview]',
         removeButton: '[data-remove-button]',
@@ -12,10 +13,12 @@ const defaults = {
     classes: {
         showFiles: '_show-files',
         removing: '_removing',
+        uploading: '_uploading',
     },
     multiple: false,
     accept: [],
     files: [],
+    onUpload: noop,
 }
 
 export default class FileLoader {
@@ -36,12 +39,14 @@ export default class FileLoader {
 
         this.$fileInput = this.$el.querySelector(selectors.fileInput)
         this.$openButton = this.$el.querySelector(selectors.openButton)
+        this.$uploadButton = this.$el.querySelector(selectors.uploadButton)
         this.$preview = this.$el.querySelector(selectors.previewContainer)
     }
 
     _bindEvents() {
-        this.$openButton.addEventListener('click', () => this.open())
         this.$fileInput.addEventListener('change', this._onChange.bind(this))
+        this.$openButton.addEventListener('click', () => this.open())
+        this.$uploadButton.addEventListener('click', this._onClickUpload.bind(this))
         this.$preview.addEventListener('click', this._onClickRemove.bind(this))
         this.$preview.addEventListener('transitionend', this._onTransitionEnd.bind(this))
     }
@@ -101,6 +106,17 @@ export default class FileLoader {
         }
     }
 
+    _onClickUpload() {
+        const { files, classes, onUpload } = this.options
+
+        if (!files.length) {
+            return
+        }
+
+        this.$el.classList.add(classes.uploading)
+        onUpload(files)
+    }
+
     _removeFilePreviewHandler($filePreview) {
         $filePreview.remove()
 
@@ -138,6 +154,10 @@ export default class FileLoader {
                     <span class="file-preview__name">${file.name}</span>
                     <span class="file-preview__size">${bytesToSize(file.size)}</span>
                 </p>
+                
+                <div class="progress-bar file-preview__progress-bar">
+                    <div class="progress-bar__bar"></div>
+                </div>
             </div>
         `
     }
@@ -147,15 +167,9 @@ export default class FileLoader {
     }
 
     render(files) {
-        const hasFiles = !!files.length
-
         this.options.files = files
         this.$preview.innerHTML = ''
-        this.$el.classList.toggle(this.options.classes.showFiles, hasFiles)
-
-        if (!hasFiles) {
-            return
-        }
+        this.$el.classList.add(this.options.classes.showFiles)
 
         this.$preview.innerHTML = files.reduce((html, file) => {
             return html + this._getFileHTML(file)
