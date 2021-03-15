@@ -1,0 +1,234 @@
+.progress-bar {
+  box-shadow: inset 0 0 0 transparent, inset 0 0 0 transparent, -3px -3px 5px #464646, 3px 3px 5px #121212;
+  height: 15px;
+  background: #2c2c2c;
+}
+.progress-bar__bar {
+  box-sizing: border-box;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  width: 0;
+  height: 100%;
+  padding-right: 5px;
+  font-size: 10px;
+  font-weight: 900;
+  color: #2c2c2c;
+  background: silver;
+  transition: width 0.3s;
+}
+.file-preview {
+  box-shadow: inset 0 0 0 transparent, inset 0 0 0 transparent, -3px -3px 5px #464646, 3px 3px 5px #121212;
+  border-radius: 5px;
+  position: relative;
+  box-sizing: border-box;
+  padding: 10px;
+  overflow: hidden;
+}
+.file-preview._removing {
+  transform: scale(0);
+  transition: transform 0.3s;
+}
+@media only screen and (min-width: 1024px) {
+  .file-preview:hover .file-preview__remove {
+    opacity: 1;
+    transition: opacity 0.3s;
+  }
+}
+@media only screen and (min-width: 1024px) {
+  .file-preview:hover .file-preview__info {
+    transform: translateY(0);
+    transition: transform 0.3s;
+  }
+}
+.file-preview__remove {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  z-index: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+.file-preview__remove.button {
+  width: 30px;
+  height: 30px;
+  padding: 8px;
+  border-radius: 50%;
+  background: #2c2c2c;
+}
+@media only screen and (min-width: 1024px) {
+  .file-preview__remove.button {
+    width: 25px;
+    height: 25px;
+  }
+}
+@media only screen and (min-width: 1024px) {
+  .file-preview__remove {
+    opacity: 0;
+  }
+}
+.file-preview__remove-icon {
+  width: 100%;
+  max-height: 100%;
+  fill: silver;
+}
+.file-preview__square {
+  position: relative;
+  padding-bottom: 100%;
+}
+.file-preview__image,
+.file-preview__no-image {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+.file-preview__image {
+  border-radius: 5px;
+  object-fit: cover;
+}
+.file-preview__no-image {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 20px;
+  font-weight: 900;
+  text-transform: uppercase;
+  cursor: default;
+}
+.file-preview__info,
+.file-preview__progress-bar {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+}
+.file-preview__info {
+  box-shadow: inset 0 0 0 transparent, inset 0 0 0 transparent, -3px -3px 5px #464646, 3px 3px 5px #121212;
+  box-sizing: border-box;
+  display: flex;
+  justify-content: space-between;
+  padding: 5px 10px;
+  font-size: 12px;
+  background: #2c2c2c;
+}
+@media only screen and (min-width: 1024px) {
+  .file-preview__info {
+    transform: translateY(125%);
+  }
+}
+.file-preview__name {
+  margin-right: 5px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+.file-preview__size {
+  flex-shrink: 0;
+}
+.file-preview__progress-bar {
+  display: none;
+}
+.file-loader._uploading .file-preview__remove,
+.file-loader._uploading .file-preview__info {
+  display: none;
+}
+.file-loader._uploading .file-preview__progress-bar {
+  display: block;
+}
+.button {
+  box-shadow: inset 0 0 0 transparent, inset 0 0 0 transparent, -3px -3px 5px #464646, 3px 3px 5px #121212;
+  border-radius: 5px;
+  padding: 10px;
+  font-weight: 900;
+  line-height: 1;
+  text-transform: uppercase;
+  outline: none;
+  border: none;
+  color: silver;
+  background: transparent;
+  cursor: pointer;
+  transition: color 0.2s, box-shadow 0.2s;
+}
+.button:hover {
+  color: #fff;
+}
+.button:active {
+  box-shadow: inset -2px -2px 4px #464646, inset 2px 2px 4px #121212, 0 0 0 transparent, 0 0 0 transparent;
+}
+.button:active .button__text {
+  transform: scale(0.8);
+}
+.button__text {
+  display: inline-block;
+  transition: transform 0.2s;
+}
+.button[disabled] {
+  box-shadow: none;
+  color: #747474;
+  background: #1f1f1f;
+  cursor: auto;
+}
+.button[disabled] .button__text {
+  transform: scale(0.9);
+}
+.file-loader._show-files .file-loader__input-wr {
+  margin-bottom: 20px;
+}
+.file-loader._rendered-all-previews .file-loader__upload-button {
+  display: inline-block;
+}
+.file-loader__input {
+  position: absolute;
+  visibility: hidden;
+}
+.file-loader__open-button {
+  margin-right: 20px;
+}
+.file-loader__upload-button {
+  display: none;
+}
+.file-loader__preview {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-gap: 20px;
+}
+@media only screen and (min-width: 768px) {
+  .file-loader__preview {
+    grid-template-columns: repeat(3, 1fr);
+    grid-gap: 30px;
+  }
+}
+@media only screen and (min-width: 1024px) {
+  .file-loader__preview {
+    grid-template-columns: repeat(4, 1fr);
+    grid-gap: 20px;
+  }
+}
+* {
+  padding: 0;
+  margin: 0;
+}
+body {
+  font-family: 'Roboto', sans-serif;
+  color: silver;
+  background: #2c2c2c;
+}
+.app {
+  box-shadow: inset -2px -2px 4px #464646, inset 2px 2px 4px #121212, 0 0 0 transparent, 0 0 0 transparent;
+  border-radius: 5px;
+  padding: 20px;
+  margin: 25px 25px 0;
+}
+@media only screen and (min-width: 768px) {
+  .app {
+    width: 666px;
+    margin: 50px auto 0;
+  }
+}
+
+
+/*# sourceMappingURL=/app.ae76b2c0.css.map */
