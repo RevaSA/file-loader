@@ -9,16 +9,18 @@ const defaults = {
         previewContainer: '[data-preview-container]',
         filePreview: '[data-file-preview]',
         removeButton: '[data-remove-button]',
+        progressBarPercent: '[data-progress-bar-percent]',
     },
     classes: {
         showFiles: '_show-files',
-        removing: '_removing',
+        renderedAllPreviews: '_rendered-all-previews',
         uploading: '_uploading',
+        removing: '_removing',
     },
     multiple: false,
     accept: [],
     files: [],
-    onUpload: noop,
+    uploadHandler: noop,
 }
 
 export default class FileLoader {
@@ -66,20 +68,9 @@ export default class FileLoader {
     _onChange(ev) {
         const files = [...ev.currentTarget.files]
 
-        if (!files.length) {
-            return
-        }
-
-        const promises = files.map((file, index) => {
-            const { name, size } = file
-
-            return getImageFromFile(file)
-                .then(imageSrc => ({ index, name, size, imageSrc }))
-        })
-
-        Promise.all(promises).then(files => {
+        if (files.length) {
             this.render(files)
-        })
+        }
     }
 
     _onClickRemove(ev) {
@@ -107,14 +98,15 @@ export default class FileLoader {
     }
 
     _onClickUpload() {
-        const { files, classes, onUpload } = this.options
-
-        if (!files.length) {
-            return
-        }
+        const { files, classes, uploadHandler } = this.options
 
         this.$el.classList.add(classes.uploading)
-        onUpload(files)
+        uploadHandler(files, this)
+    }
+
+    _renderedAllPreviewsHandler() {
+        this.$progressBarPercents = this.$preview.querySelectorAll(this.options.selectors.progressBarPercent)
+        this.$el.classList.add(this.options.classes.renderedAllPreviews)
     }
 
     _removeFilePreviewHandler($filePreview) {
@@ -156,23 +148,49 @@ export default class FileLoader {
                 </p>
                 
                 <div class="progress-bar file-preview__progress-bar">
-                    <div class="progress-bar__bar"></div>
+                    <span class="progress-bar__bar" data-progress-bar-percent></span>
                 </div>
             </div>
         `
+    }
+
+    render(files) {
+        let renderedCount = 0
+
+        this.options.files = files
+        this.$preview.innerHTML = ''
+        this.$el.classList.remove(this.options.classes.renderedAllPreviews)
+        this.$el.classList.add(this.options.classes.showFiles)
+
+        files.forEach((file, index) => {
+            const { name, size } = file
+
+            getImageFromFile(file).then(imageSrc => {
+                this.appendPreviewFile({ index, name, size, imageSrc })
+                renderedCount += 1
+
+                if (renderedCount === files.length) {
+                    this._renderedAllPreviewsHandler()
+                }
+            })
+        })
     }
 
     open() {
         this.$fileInput.click()
     }
 
-    render(files) {
-        this.options.files = files
-        this.$preview.innerHTML = ''
-        this.$el.classList.add(this.options.classes.showFiles)
+    appendPreviewFile(file) {
+        this.$preview.insertAdjacentHTML('beforeend', this._getFileHTML(file))
+    }
 
-        this.$preview.innerHTML = files.reduce((html, file) => {
-            return html + this._getFileHTML(file)
-        }, '')
+    updatePercentage(index, percent) {
+        const $progressBar = this.$progressBarPercents[index]
+        const value = `${percent}%`
+
+        if ($progressBar) {
+            $progressBar.textContent = value
+            $progressBar.style.width = value
+        }
     }
 }

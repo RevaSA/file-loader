@@ -26,6 +26,7 @@
         "parcel-bundler": "^1.12.4"
     },
     "dependencies": {
+        "firebase": "^8.2.10",
         "lodash.merge": "^4.6.2"
     }
 }

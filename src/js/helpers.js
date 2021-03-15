@@ -18,4 +18,6 @@ export function bytesToSize(bytes = 0) {
     return Math.round(bytes / Math.pow(1024, i)) + ' ' + sizes[i]
 }
 
+export const getPercentage = (a, b) =>  Math.round((a * 100) / b)
+
 export function noop() {}
